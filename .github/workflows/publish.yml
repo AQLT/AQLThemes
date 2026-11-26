@@ -53,7 +53,8 @@ jobs:
               -o "$RUNNER_TEMP/$f-%d.png" "$f.pdf"
             montage "$RUNNER_TEMP/$f"-{1..4}.png -tile 2x2 -geometry +6+6 \
               -background '#dddddd' "_site/images/beamer-$f.png"
-            # revealjs : 4 premières slides
+            # revealjs : 4 premières slides (decktape exige un dossier existant)
+            mkdir -p "$RUNNER_TEMP/reveal-$f"
             npx -y decktape@3 reveal --size 1280x720 --slides 1-4 \
               --chrome-arg=--no-sandbox \
               --screenshots --screenshots-directory "$RUNNER_TEMP/reveal-$f" \
