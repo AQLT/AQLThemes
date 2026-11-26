@@ -1,0 +1,9 @@
+# Variante de template.qmd : seules les options du thème changent.
+# quarto render template.qmd --metadata-file examples/custom.yml
+aqlt:
+  primary: "#C8102E"
+  secondary: "#F2F2F2"
+  subsection-text: "#333333"
+  frametitle-text: "#C8102E"
+  bullet: triangle
+  footer-title: true

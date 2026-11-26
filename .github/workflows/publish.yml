@@ -1,0 +1,71 @@
+# Rend template.qmd (couleurs par défaut et variante examples/custom.yml)
+# en PDF et en HTML, génère les aperçus PNG et publie le tout sur gh-pages.
+name: Publish examples
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Ghostscript and ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y ghostscript imagemagick
+
+      - name: Render
+        run: |
+          quarto render template.qmd --to aqlt-beamer
+          quarto render template.qmd --to aqlt-revealjs
+          quarto render template.qmd --to aqlt-beamer \
+            --metadata-file examples/custom.yml --output custom.pdf
+          quarto render template.qmd --to aqlt-revealjs \
+            --metadata-file examples/custom.yml --output custom.html
+
+      - name: Screenshots
+        run: |
+          mkdir -p _site/images
+          for f in template custom; do
+            # beamer : 4 premières pages
+            gs -q -sDEVICE=png16m -r100 -dFirstPage=1 -dLastPage=4 \
+              -o "$RUNNER_TEMP/$f-%d.png" "$f.pdf"
+            montage "$RUNNER_TEMP/$f"-{1..4}.png -tile 2x2 -geometry +6+6 \
+              -background '#dddddd' "_site/images/beamer-$f.png"
+            # revealjs : 4 premières slides
+            npx -y decktape@3 reveal --size 1280x720 --slides 1-4 \
+              --chrome-arg=--no-sandbox \
+              --screenshots --screenshots-directory "$RUNNER_TEMP/reveal-$f" \
+              "file://$PWD/$f.html" "$RUNNER_TEMP/$f-reveal.pdf"
+            montage "$RUNNER_TEMP/reveal-$f"/*.png -tile 2x2 -geometry 640x360+6+6 \
+              -background '#dddddd' "_site/images/revealjs-$f.png"
+          done
+
+      - name: Assemble site
+        run: |
+          cp -R template.html template.pdf template_files custom.html custom.pdf img _site/
+          cp examples/index.html _site/index.html
+
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./_site
+          force_orphan: true

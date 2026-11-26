@@ -1,0 +1,67 @@
+---
+title: "AQLT theme"
+subtitle: "Quarto extension for beamer and revealjs"
+author: "Alain Quartier-la-Tente"
+division: "Example division"
+date: today
+logo: img/logo.jpeg
+format:
+  aqlt-beamer: default
+  aqlt-revealjs: default
+---
+
+# Getting started
+
+## Structure
+
+### Headings
+
+- `#` is a **section**: shown in the top-left block
+- `##` is a **subsection**: shown in the top-right block
+- `###` is a **slide**: its title is underlined
+    - sub-items use a hollow bullet
+    - the bullet colour follows `primary`
+
+The same source renders to PDF (`aqlt-beamer`) and HTML (`aqlt-revealjs`).
+
+### Text and maths
+
+Use [highlighted text]{.alert} to emphasise words with the primary colour.
+
+The theme defines a few macros for both LaTeX and MathJax:
+
+$$
+\E{X} = \mu, \quad \V{X} = \sigma^2, \quad \cov{X}{Y} = \E{(X - \E{X})(Y - \E{Y})}
+$$
+
+## Layout
+
+### Columns and callouts
+
+:::: {.columns}
+::: {.column width="50%"}
+1. First point
+2. Second point
+3. Third point
+:::
+::: {.column width="50%"}
+::: {.callout-tip}
+## Tip
+Callouts work in both formats.
+:::
+:::
+::::
+
+# Customisation
+
+### YAML options
+
+```yaml
+aqlt:
+  primary: "#C8102E"
+  secondary: "#F2F2F2"
+  frametitle-text: "#C8102E"
+  footer-title: true
+```
+
+See `examples/custom.qmd` for the rendered result.

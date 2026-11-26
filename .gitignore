@@ -3,3 +3,16 @@
 .RData
 .Ruserdata
 .DS_Store
+# Sorties de rendu (publiées sur gh-pages par la GitHub Action)
+/template.pdf
+/template.html
+/template_files/
+/custom.pdf
+/custom.html
+/beamerthemeaqlt.sty
+/_site/
+.quarto/
+*.tex
+*.log
+.claude/
+*.Rproj
