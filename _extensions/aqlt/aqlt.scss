@@ -1,0 +1,228 @@
+/*-- scss:defaults --*/
+
+$font-family-sans-serif: "Fira Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$presentation-font-size-root: 32px !default;
+$presentation-heading-font-weight: 400 !default;
+$presentation-heading-color: #000 !default;
+$body-color: #000 !default;
+
+/*-- scss:rules --*/
+
+// Couleurs : redéfinies par le filtre aqlt.lua à partir du YAML `aqlt:`
+:root {
+  --aqlt-primary: #00B0F0;
+  --aqlt-secondary: color-mix(in srgb, var(--aqlt-primary) 20%, white);
+  --aqlt-section-text: white;
+  --aqlt-subsection-text: var(--aqlt-primary);
+  --aqlt-footer-text: color-mix(in srgb, var(--aqlt-primary) 60%, black);
+  --aqlt-frametitle-text: black;
+  --aqlt-header-height: 34px;
+}
+
+.reveal a,
+.reveal strong a {
+  color: var(--aqlt-primary);
+}
+
+// --- Bandeau section | sous-section --------------------------------------
+.reveal .slides section.slide {
+  padding-top: calc(var(--aqlt-header-height) + 0.4em);
+}
+
+.reveal .aqlt-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--aqlt-header-height);
+  display: flex;
+  margin: 0;
+  font-size: 15px;
+  line-height: var(--aqlt-header-height);
+
+  > p {
+    display: contents;
+  }
+
+  .aqlt-section,
+  .aqlt-subsection {
+    flex: 1 1 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .aqlt-section {
+    background: var(--aqlt-primary);
+    color: var(--aqlt-section-text);
+    font-weight: bold;
+    text-align: right;
+    padding-right: 1em;
+  }
+
+  .aqlt-subsection {
+    background: var(--aqlt-secondary);
+    color: var(--aqlt-subsection-text);
+    text-align: left;
+    padding-left: 1em;
+  }
+}
+
+// Slides de section masquées en beamer : bandeau inutile sur leur titre
+.reveal .slides section.slide.level1 h1,
+.reveal .slides section.slide.level2 h2 {
+  color: var(--aqlt-primary);
+}
+
+// --- Titre de slide souligné -----------------------------------------------
+.reveal .slides section.slide > h3,
+.reveal .slides section.slide > h2 {
+  color: var(--aqlt-frametitle-text);
+  font-size: 1.5em;
+  font-weight: 400;
+  border-bottom: 3px solid var(--aqlt-primary);
+  padding-bottom: 0.1em;
+  margin-bottom: 0.6em;
+  text-transform: none;
+}
+
+// --- Puces et texte mis en valeur ------------------------------------------
+.reveal ul ul {
+  list-style-type: circle;
+}
+
+.reveal ul li::marker,
+.reveal ol li::marker {
+  color: var(--aqlt-primary);
+}
+
+.reveal .alert,
+.reveal span.alert {
+  color: var(--aqlt-primary);
+}
+
+// --- Pied de page : titre | numéro -----------------------------------------
+.reveal .footer.footer-default {
+  left: 6%;
+  right: auto;
+  bottom: 10px;
+  width: 73%;
+  padding: 2px 0;
+  border-radius: 6px;
+  background: var(--aqlt-secondary);
+  color: var(--aqlt-footer-text);
+  box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.35);
+  font-size: 13px !important;
+  font-weight: bold;
+  text-align: center;
+
+  p {
+    margin: 0;
+  }
+}
+
+.reveal .slide-number,
+.reveal.has-logo .slide-number {
+  top: auto !important;
+  right: 6.5% !important;
+  bottom: 10px !important;
+  min-width: 7.5%;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--aqlt-secondary) !important;
+  box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.35);
+  text-align: center;
+
+  a,
+  span {
+    color: var(--aqlt-footer-text) !important;
+    font-size: 13px;
+    font-weight: bold;
+  }
+}
+
+// Logo Quarto global non utilisé : le logo n'apparaît que sur la page de garde
+.reveal .slide-logo {
+  display: none !important;
+}
+
+// Pas de pied de page sur la page de garde
+.aqlt-title .reveal .footer,
+.aqlt-title .reveal .slide-number,
+.reveal-viewport.aqlt-title .footer,
+.reveal-viewport.aqlt-title .slide-number {
+  display: none !important;
+}
+
+// --- Page de garde ---------------------------------------------------------
+.reveal .slides section.aqlt-title-slide {
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  text-align: center;
+
+  .aqlt-title-logo {
+    max-height: 20%;
+    margin: 0 0 1em 0;
+  }
+
+  .aqlt-title-band {
+    width: 100%;
+    background: var(--aqlt-primary);
+    color: var(--aqlt-section-text);
+    padding: 0.5em 0;
+
+    h1.title {
+      margin: 0;
+      color: inherit;
+      font-size: 1.6em;
+      font-weight: 400;
+    }
+  }
+
+  .date {
+    font-size: 0.8em;
+  }
+
+  .aqlt-title-author {
+    align-self: flex-start;
+    text-align: left;
+    margin-top: auto;
+    margin-bottom: 1.5em;
+    padding-left: 1em;
+
+    p {
+      margin: 0;
+      font-size: 0.8em;
+    }
+
+    .author {
+      font-variant: small-caps;
+      font-size: 0.9em;
+    }
+  }
+
+  // Comme en beamer : bloc sous-titre et logo en haut, bandeau titre et
+  // date au milieu, auteur en bas
+  > :first-child {
+    margin-top: 0.6em;
+  }
+
+  .aqlt-title-band {
+    margin-top: auto;
+  }
+
+  .aqlt-subtitle-box {
+    width: 89%;
+    background: var(--aqlt-primary);
+    color: var(--aqlt-section-text);
+    border-radius: 8px;
+    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.35);
+    font-variant: small-caps;
+    padding: 0.15em 0;
+    margin-bottom: 0.6em;
+  }
+}

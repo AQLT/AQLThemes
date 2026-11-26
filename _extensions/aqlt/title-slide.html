@@ -1,0 +1,26 @@
+<section id="$idprefix$title-slide" class="aqlt-title-slide" data-state="aqlt-title" data-footer="false"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>
+$if(subtitle)$
+  <div class="aqlt-subtitle-box">$subtitle$</div>
+$endif$
+$if(aqlt-logo)$
+  <img class="aqlt-title-logo" src="$aqlt-logo$" alt="">
+$endif$
+  <div class="aqlt-title-band"><h1 class="title">$title$</h1></div>
+$if(date)$
+  <p class="date">$date$</p>
+$endif$
+  <div class="aqlt-title-author">
+$for(author)$
+    <p class="author">$author$</p>
+$endfor$
+$for(institute)$
+    <p class="institute">$institute$</p>
+$endfor$
+$if(division)$
+    <p class="institute">$division$</p>
+$endif$
+$if(departement)$
+    <p class="institute">$departement$</p>
+$endif$
+  </div>
+</section>

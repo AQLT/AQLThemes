@@ -1,0 +1,14 @@
+$if(toc)$
+\begin{frame}
+$if(toc-title)$
+  \frametitle{$toc-title$}
+$endif$
+  \tableofcontents[hideallsubsections]
+\end{frame}
+$endif$
+$if(lof)$
+\listoffigures
+$endif$
+$if(lot)$
+\listoftables
+$endif$

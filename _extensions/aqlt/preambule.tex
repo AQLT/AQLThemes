@@ -1,0 +1,16 @@
+% Packages et macros communs à toutes les présentations
+\usepackage[tikz]{bclogo}
+\usepackage{fontawesome5}
+\usepackage{pgfplots}
+\usepackage{animate}
+\pgfplotsset{compat=1.10}
+\usetikzlibrary{calc}
+\usepackage{mathtools,multirow,hhline}
+
+\usepackage{caption}
+\captionsetup{skip=0pt,belowskip=0pt}
+
+\DeclareMathOperator{\Cov}{Cov}
+\newcommand{\E}[1]{\mathbb{E}\left[ #1 \right]}
+\newcommand{\V}[1]{\mathbb{V}\left[ #1 \right]}
+\newcommand{\cov}[2]{\Cov\left( #1\,,\,#2 \right)}

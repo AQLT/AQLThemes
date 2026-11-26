@@ -1,0 +1,260 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Thème beamer AQLT
+% Dérivé du thème TorinoTh, Copyright 2011 by Fiandrino Claudio
+%
+% This file may be distributed and/or modified
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% Toutes les couleurs dérivent de 6 couleurs nommées, que le filtre
+% aqlt.lua redéfinit à partir des options `aqlt:` du YAML :
+%   aqltprimary         bloc section (haut gauche), trait sous le titre,
+%                       puces, texte mis en valeur, titre de la page de garde
+%   aqltsecondary       bloc sous-section (haut droite), pied de page
+%   aqltsectiontext     texte sur fond aqltprimary
+%   aqltsubsectiontext  texte du bloc sous-section
+%   aqltfootertext      texte du pied de page
+%   aqltframetitle      titre des slides
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mode<presentation>
+
+\RequirePackage{pifont}
+
+%------------------------------------------------------------
+% Couleurs (valeurs par défaut)
+%------------------------------------------------------------
+\definecolor{aqltprimary}{HTML}{00B0F0}
+\colorlet{aqltsecondary}{aqltprimary!20}
+\colorlet{aqltsectiontext}{white}
+\colorlet{aqltsubsectiontext}{aqltprimary}
+\colorlet{aqltfootertext}{aqltprimary!60!black}
+\colorlet{aqltframetitle}{black}
+
+% Les couleurs beamer ne sont évaluées qu'à l'utilisation : redéfinir
+% aqltprimary & co après le chargement du thème suffit.
+\setbeamercolor*{palette primary}{fg=aqltsectiontext,bg=aqltprimary}
+\setbeamercolor*{palette secondary}{fg=aqltfootertext,bg=aqltsecondary}
+\setbeamercolor*{structure}{fg=aqltprimary}
+\setbeamercolor*{normal text}{fg=black,bg=white}
+\setbeamercolor*{frametitle}{fg=aqltframetitle}
+\setbeamercolor*{framesubtitle}{fg=aqltframetitle}
+\setbeamercolor*{item}{fg=aqltprimary}
+\setbeamercolor*{alerted text}{fg=aqltprimary}
+\setbeamercolor*{section in toc}{fg=aqltprimary}
+\setbeamercolor*{subsection in toc}{fg=aqltprimary}
+
+\setbeamercolor*{page header}{parent=palette primary}
+\setbeamercolor*{second header}{fg=aqltsubsectiontext,bg=aqltsecondary}
+\setbeamercolor*{titleline}{bg=aqltprimary}
+\setbeamercolor*{footerbox}{parent=palette secondary}
+\setbeamercolor*{frame number}{parent=palette secondary}
+\setbeamercolor*{title page header}{parent=palette primary}
+\setbeamercolor*{subtitle}{fg=aqltprimary}
+
+\setbeamercolor{block title}{fg=aqltsectiontext,bg=aqltprimary}
+\setbeamercolor{block title alerted}{fg=aqltsectiontext,bg=aqltprimary}
+\setbeamercolor{block title example}{fg=aqltsectiontext,bg=aqltprimary}
+\setbeamercolor{block body}{fg=black,bg=aqltprimary!10}
+\setbeamercolor{block body alerted}{fg=black,bg=aqltprimary!10}
+\setbeamercolor{block body example}{fg=black,bg=aqltprimary!10}
+
+%------------------------------------------------------------
+% Polices
+%------------------------------------------------------------
+\setbeamerfont{title}{size=\Large}
+\setbeamerfont{subtitle}{size=\large,shape=\scshape}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{frame number}{series=\bfseries}
+\setbeamerfont{footline}{size=\tiny,family=\sffamily,series=\bfseries}
+\setbeamerfont{date}{family=\sffamily,size=\small}
+\setbeamerfont{section in toc}{family=\sffamily,size=\normalsize,series=\bfseries}
+
+%------------------------------------------------------------
+% Réglages modifiables depuis le YAML (via aqlt.lua)
+%------------------------------------------------------------
+\def\aqlt@logo{}
+\def\aqlt@division{}
+\def\aqlt@departement{}
+\newcommand{\aqltlogo}[1]{\def\aqlt@logo{#1}}
+\newcommand{\division}[1]{\def\aqlt@division{#1}}
+\newcommand{\departement}[1]{\def\aqlt@departement{#1}}
+% Titre (court) dans le pied de page : true | false
+\def\aqlt@footertitle{false}
+\newcommand{\aqltfootertitle}[1]{\def\aqlt@footertitle{#1}}
+\def\aqlt@true{true}
+
+%------------------------------------------------------------
+% Marges
+%------------------------------------------------------------
+\newlength{\aqlt@margin}
+\setlength{\aqlt@margin}{.065\paperwidth}
+\setbeamersize{text margin left=\aqlt@margin}
+\setbeamersize{text margin right=\aqlt@margin}
+\setlength\leftmargini{.6\aqlt@margin}
+\setlength\leftmarginii{.6\aqlt@margin}
+\setlength\leftmarginiii{.6\aqlt@margin}
+
+\newlength{\aqlt@line}
+\setlength{\aqlt@line}{.03\paperheight}
+\newlength{\aqlt@box}
+\setlength{\aqlt@box}{.015\paperheight}
+
+%------------------------------------------------------------
+% En-tête : section (haut gauche) | sous-section (haut droite)
+%------------------------------------------------------------
+\defbeamertemplate*{headline}{aqlt}
+{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=0.5\paperwidth,ht=\aqlt@line,dp=0.8em,right,rightskip=1em]{page header}%
+      \usebeamerfont{footline}\insertsectionhead
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.5\paperwidth,ht=\aqlt@line,dp=0.8em,left,leftskip=1em]{second header}%
+      \usebeamerfont{footline}\mdseries\insertsubsectionhead
+    \end{beamercolorbox}%
+  }%
+}
+
+%------------------------------------------------------------
+% Pied de page : [titre court] | numéro de slide
+%------------------------------------------------------------
+\defbeamertemplate*{footline}{aqlt}
+{%
+  \leavevmode%
+  \hbox{%
+    \ifx\aqlt@footertitle\aqlt@true
+      \begin{beamercolorbox}[wd=.06\paperwidth,ht=\aqlt@box,dp=0pt]{}\end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.73\paperwidth,ht=\aqlt@box,sep=0.75pt,center,rounded=true,shadow=true]{footerbox}%
+        \usebeamerfont{footline}\insertshorttitle\par%
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.05\paperwidth,ht=\aqlt@box,dp=0pt]{}\end{beamercolorbox}%
+    \else
+      \begin{beamercolorbox}[wd=.84\paperwidth,ht=\aqlt@box,dp=0pt]{}\end{beamercolorbox}%
+    \fi
+    \begin{beamercolorbox}[wd=.075\paperwidth,ht=\aqlt@box,center,rounded=true,shadow=true]{frame number}%
+      \usebeamerfont{footline}\insertframenumber{} / \inserttotalframenumber{}%
+    \end{beamercolorbox}%
+  }%
+  \vskip0.2\aqlt@line%
+}
+
+% Titre court sans lien hypertexte
+\renewcommand\insertshorttitle[1][]{%
+  \beamer@setupshort{#1}%
+  \let\thanks=\@gobble%
+  \beamer@insertshort{\beamer@shorttitle}%
+}
+
+%------------------------------------------------------------
+% Titre des slides, souligné par un trait de couleur primaire
+%------------------------------------------------------------
+\defbeamertemplate*{frametitle}{aqlt}[1][left]
+{%
+  \nointerlineskip%
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \vbox{}\vskip-1.\beamer@leftmargin%
+  \begin{beamercolorbox}[sep=\beamer@leftmargin,#1,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \vbox{}\vskip0ex%
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    \strut\insertframetitle\strut\par%
+    \ifx\insertframesubtitle\@empty\else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+    \fi%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-\beamer@leftmargin\fi
+  \end{beamercolorbox}%
+  \vskip-.5\beamer@leftmargin%
+  \begin{beamercolorbox}[wd=\textwidth,ht=.1ex,dp=0ex]{titleline}\end{beamercolorbox}%
+}
+\defbeamertemplate*{frametitle continuation}{aqlt}{(\insertcontinuationcount)}
+
+%------------------------------------------------------------
+% Page de garde : sous-titre dans un bloc arrondi, logo, bandeau titre,
+% date, auteur
+%------------------------------------------------------------
+\newcommand{\aqlt@titlelogo}{%
+  \ifx\aqlt@logo\@empty\else
+    \includegraphics[height=.2\paperheight]{\aqlt@logo}\par
+  \fi
+}
+\newcommand{\aqlt@titleband}{%
+  \begin{beamercolorbox}[wd=\paperwidth,sep=8pt,center]{title page header}
+    \usebeamerfont{title}\inserttitle\par%
+  \end{beamercolorbox}%
+}
+\newcommand{\aqlt@titleauthor}{%
+  \begin{beamercolorbox}[sep=8pt]{author}
+    \usebeamerfont{author}{\scshape\insertauthor}\par
+    \ifx\beamer@institute\@empty\else\insertinstitute\par\fi
+    \ifx\aqlt@division\@empty\else\aqlt@division\par\fi
+    \ifx\aqlt@departement\@empty\else\aqlt@departement\par\fi
+  \end{beamercolorbox}%
+}
+
+\defbeamertemplate*{title page}{aqlt}[1][]
+{%
+  \begin{centering}
+    \ifx\beamer@subtitle\@empty\else
+      \begin{beamercolorbox}[rounded=true,shadow=true,ht=2.5ex,wd=.89\paperwidth,sep=3pt,center]{title page header}%
+        \usebeamerfont{subtitle}\insertsubtitle\par%
+      \end{beamercolorbox}
+      \vskip0.5em%
+    \fi
+    \aqlt@titlelogo
+    \vfill
+  \end{centering}
+  \vskip0.25em%
+  \begin{centering}\aqlt@titleband\end{centering}
+  \ifx\beamer@date\@empty\else
+    \vskip0.75em
+    \begin{centering}{\usebeamerfont{date}\insertdate\par}\end{centering}
+  \fi
+  \vfill
+  \aqlt@titleauthor
+}
+
+%------------------------------------------------------------
+% Puces (option `bullet` : circle, square, triangle, diamond)
+%------------------------------------------------------------
+\defbeamertemplate{itemize item}{aqltcircle}{\small\raise.2ex\hbox{\donotcoloroutermaths$\bullet$}}
+\defbeamertemplate{itemize subitem}{aqltcircle}{\small\raise.1ex\hbox{\donotcoloroutermaths$\circ$}}
+\defbeamertemplate{itemize subsubitem}{aqltcircle}{\scriptsize\raise.1ex\hbox{\donotcoloroutermaths$\bullet$}}
+\defbeamertemplate{itemize item}{aqltsquare}{\tiny\raise.5ex\hbox{\donotcoloroutermaths$\blacksquare$}}
+\defbeamertemplate{itemize subitem}{aqltsquare}{\tiny\raise.4ex\hbox{\donotcoloroutermaths$\square$}}
+\defbeamertemplate{itemize subsubitem}{aqltsquare}{\tiny\raise.3ex\hbox{\donotcoloroutermaths$\blacksquare$}}
+\defbeamertemplate{itemize item}{aqltdiamond}{\tiny\raise.5ex\hbox{\donotcoloroutermaths$\blacklozenge$}}
+\defbeamertemplate{itemize subitem}{aqltdiamond}{\tiny\raise.4ex\hbox{\donotcoloroutermaths$\lozenge$}}
+\defbeamertemplate{itemize subsubitem}{aqltdiamond}{\tiny\raise.3ex\hbox{\donotcoloroutermaths$\blacklozenge$}}
+\defbeamertemplate{itemize item}{aqlttriangle}{\tiny\raise.5ex\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+\defbeamertemplate{itemize subitem}{aqlttriangle}{\tiny\raise.4ex\hbox{\donotcoloroutermaths$\vartriangleright$}}
+\defbeamertemplate{itemize subsubitem}{aqlttriangle}{\tiny\raise.3ex\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+\newcommand{\aqltbullet}[1]{%
+  \setbeamertemplate{itemize item}[aqlt#1]%
+  \setbeamertemplate{itemize subitem}[aqlt#1]%
+  \setbeamertemplate{itemize subsubitem}[aqlt#1]%
+}
+\aqltbullet{circle}
+
+%------------------------------------------------------------
+% Divers
+%------------------------------------------------------------
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[subsections numbered]
+\setbeamertemplate{navigation symbols}{}
+% Le logo (option `logo`) n'apparaît que sur la page de garde
+\setbeamertemplate{sidebar right}{}
+
+\newcommand{\highlight}[1]{{\itshape\color{alerted text.fg}{#1}}}
+\newcommand{\highlightbf}[1]{{\bfseries\color{alerted text.fg}{#1}}}
+\newenvironment{adv}{\begin{list}{\color{alerted text.fg}{\ding{51}}}{}}{\end{list}}
+\newenvironment{disadv}{\begin{list}{\color{alerted text.fg}{\ding{55}}}{}}{\end{list}}
+\newenvironment{tframe}{\begin{frame}[t]}{\end{frame}}
+
+\mode<all>
