@@ -51,16 +51,16 @@ jobs:
             # beamer : 4 premières pages
             gs -q -sDEVICE=png16m -r100 -dFirstPage=1 -dLastPage=4 \
               -o "$RUNNER_TEMP/$f-%d.png" "$f.pdf"
-            montage "$RUNNER_TEMP/$f"-{1..4}.png -tile 2x2 -geometry +6+6 \
-              -background '#dddddd' "_site/images/beamer-$f.png"
+            montage "$RUNNER_TEMP/$f"-{1..4}.png -tile 2x2 -geometry +8+8 \
+              -border 1 -bordercolor '#c8c8c8' -background white "_site/images/beamer-$f.png"
             # revealjs : 4 premières slides (decktape exige un dossier existant)
             mkdir -p "$RUNNER_TEMP/reveal-$f"
             npx -y decktape@3 reveal --size 1280x720 --slides 1-4 \
               --chrome-arg=--no-sandbox \
               --screenshots --screenshots-directory "$RUNNER_TEMP/reveal-$f" \
               "file://$PWD/$f.html" "$RUNNER_TEMP/$f-reveal.pdf"
-            montage "$RUNNER_TEMP/reveal-$f"/*.png -tile 2x2 -geometry 640x360+6+6 \
-              -background '#dddddd' "_site/images/revealjs-$f.png"
+            montage "$RUNNER_TEMP/reveal-$f"/*.png -tile 2x2 -geometry 640x360+8+8 \
+              -border 1 -bordercolor '#c8c8c8' -background white "_site/images/revealjs-$f.png"
           done
 
       - name: Assemble site

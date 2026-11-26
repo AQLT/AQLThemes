@@ -59,25 +59,57 @@ Les deux formats utilisent la même structure de titres (`slide-level: 3`) :
 
 ## Options
 
-Toutes les options sont facultatives :
+Toutes les options sont facultatives. L'exemple ci-dessous reprend les valeurs par défaut :
 
 ```yaml
 aqlt:
-  primary: "#00B0F0"          # bloc section, trait sous le titre, puces, liens
-  secondary: "#CCEFFC"        # bloc sous-section et pied de page (défaut : primary à 20 %)
-  section-text: white         # texte du bloc section et du bandeau titre
-  subsection-text: "#00B0F0"  # texte du bloc sous-section (défaut : primary)
-  footer-text: "#006A90"      # texte du pied de page (défaut : primary assombri)
-  frametitle-text: black      # titre des slides
-  bullet: circle              # circle | square | triangle | diamond (beamer uniquement)
-  footer-title: false         # true : bloc en bas avec le titre (ou `footer:`)
-footer: "Texte du pied de page"   # défaut : le titre ; affiche le bloc si footer-title n'est pas précisé
-section-titles: false             # true : une slide par section et sous-section
+  primary: "#00B0F0"
+  secondary: "#CCEFFC"
+  section-text: white
+  subsection-text: "#00B0F0"
+  footer-text: "#006A90"
+  frametitle-text: black
+  bullet: circle
+  footer-title: false
 ```
 
 En pratique, `primary` suffit souvent, car les autres couleurs en dérivent.
 Une couleur s'écrit en hexadécimal (`"#C8102E"`, `"#C21"`) ou avec un nom connu
 à la fois de LaTeX et de CSS (`white`, `black`, `red`...).
+
+### Options du thème (`aqlt:`)
+
+| Option | Défaut | Ce qu'elle change |
+|---|---|---|
+| `primary` | `#00B0F0` | Fond du bloc section (haut gauche), trait sous le titre des slides, puces et numéros de liste, `[texte]{.alert}`, liens (revealjs), bandeau titre et bloc du sous-titre de la page de garde, titres des blocs ; le corps des blocs l'utilise à 10 % (beamer) |
+| `secondary` | `primary` à 20 % | Fond du bloc sous-section (haut droite), du bloc titre en bas et du numéro de slide |
+| `section-text` | `white` | Texte sur fond `primary` : bloc section, bandeau titre, bloc du sous-titre, titres des blocs |
+| `subsection-text` | `primary` | Texte du bloc sous-section |
+| `footer-text` | `primary` assombri (60 %) | Texte du bloc titre en bas et du numéro de slide |
+| `frametitle-text` | `black` | Titre des slides |
+| `bullet` | `circle` | Forme des puces : `circle`, `square`, `triangle` ou `diamond` (beamer uniquement) |
+| `footer-title` | `false` | `true` affiche en bas des slides un bloc avec le titre (ou le texte de `footer:`) |
+
+### Options du document
+
+| Option | Défaut | Ce qu'elle change |
+|---|---|---|
+| `title`, `subtitle`, `author`, `date` | | Page de garde ; le sous-titre va dans le bloc arrondi en haut |
+| `institute`, `division`, `departement` | | Lignes sous l'auteur sur la page de garde |
+| `logo` | | Image de la page de garde (avec l'extension, par exemple `img/logo.jpeg`) |
+| `footer` | le titre | Texte du bloc en bas ; le renseigner affiche le bloc, sauf si `footer-title: false` |
+| `shorttitle` | `footer` | Texte du bloc en bas, en beamer uniquement |
+| `section-titles` | `false` | `true` ajoute une slide pour chaque section (`#`) et sous-section (`##`) |
+
+### Valeurs imposées par l'extension
+
+Elles se remplacent sous `format:` comme n'importe quelle option Quarto.
+
+| Format | Valeurs |
+|---|---|
+| les deux | `slide-level: 3` |
+| `aqlt-beamer` | `pdf-engine: pdflatex`, `fontsize: 10pt`, `classoption: [xcolor=table, dvipsnames]` |
+| `aqlt-revealjs` | `width: 1280`, `height: 720`, `slide-number: c/t`, `center: false`, `transition: none` |
 
 ## Syntaxe commune aux deux formats
 
