@@ -18,30 +18,34 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
           tinytex: true
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install Ghostscript and ImageMagick
         run: sudo apt-get update && sudo apt-get install -y ghostscript imagemagick
 
+      # Les variantes d'abord : avec --output, Quarto rend template.pdf puis le
+      # renomme, ce qui supprimerait la version par défaut rendue avant.
       - name: Render
         run: |
-          quarto render template.qmd --to aqlt-beamer
-          quarto render template.qmd --to aqlt-revealjs
           quarto render template.qmd --to aqlt-beamer \
             --metadata-file examples/custom.yml --output custom.pdf
           quarto render template.qmd --to aqlt-revealjs \
             --metadata-file examples/custom.yml --output custom.html
+          quarto render template.qmd --to aqlt-beamer
+          quarto render template.qmd --to aqlt-revealjs
+          ls -l template.pdf template.html custom.pdf custom.html
 
       - name: Screenshots
         run: |
+          set -x
           mkdir -p _site/images
           for f in template custom; do
             # beamer : 4 premières pages
