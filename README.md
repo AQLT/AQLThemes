@@ -131,3 +131,9 @@ quarto render template.qmd --to aqlt-beamer \
 
 On each push to `master`, the [GitHub Action](.github/workflows/publish.yml) renders
 both versions, takes the screenshots and publishes them to the `gh-pages` branch.
+
+## License
+
+[MIT](LICENSE), except [`_extensions/aqlt/beamerthemeaqlt.sty`](_extensions/aqlt/beamerthemeaqlt.sty),
+which is derived from the TorinoTh beamer theme by Claudio Fiandrino and is distributed under the
+[LaTeX Project Public License 1.3c](https://www.latex-project.org/lppl.txt).
